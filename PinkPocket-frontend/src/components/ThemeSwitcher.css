@@ -1,0 +1,262 @@
+/* Floating Action Button */
+.theme-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--pmrycolor);
+  color: white;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* Backdrop */
+.theme-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Modal */
+.theme-modal {
+  background: #fff;
+  border-radius: 22px;
+  padding: 28px 24px 20px;
+  width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.theme-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.theme-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+.theme-close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.theme-close-btn:hover {
+  color: #555;
+}
+
+/* Theme Rows */
+.theme-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.theme-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1.5px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.theme-row:hover {
+  border-color: var(--pmrycolor);
+  background: #fdf5f9;
+}
+
+.theme-row-active {
+  border-width: 1.5px;
+}
+
+.theme-row-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.theme-row-label {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+}
+
+.theme-row-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* --- THEME ICON (SMALLLER SIZE) --- */
+.theme-fab-icon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 35px; /* Reduced size to match Figma */
+  height: 35px;
+  cursor: pointer;
+  z-index: 2000;
+  transition: transform 0.2s ease;
+}
+
+.theme-fab-icon:hover {
+  transform: scale(1.1);
+}
+
+/* --- CATEGORY PILLS --- */
+.products-filter-bar {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.filter-chip {
+  padding: 10px 28px;
+  border-radius: 50px;
+  border: none;
+  background: #F8E7F0; /* Softest pink */
+  color: #5E4B56;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.filter-chip.active {
+  background: #F39AC8; /* Primary Figma Pink */
+  color: white;
+}
+
+/* --- 3-COLUMN PRODUCT GRID --- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 0 60px 60px;
+}
+
+.shop-product-card {
+  background: white;
+  border-radius: 25px;
+  padding: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.shop-product-img-area {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1; /* Square images */
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fdf2f8;
+}
+
+.shop-product-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f9d0e8 0%, #f0e8ef 100%);
+}
+
+.heart-icon-overlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #D1C4CB;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.heart-icon-overlay.active { color: #F39AC8; }
+
+.shop-product-name {
+  display: block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #3A2A35;
+  margin-top: 12px;
+}
+
+.shop-product-cat-label {
+  display: block;
+  font-size: 0.9rem;
+  color: #9D8A95;
+  margin-bottom: 15px;
+}
+
+.shop-product-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shop-product-price-tag {
+  font-weight: 700;
+  color: #3A2A35;
+  font-size: 1.1rem;
+}
+
+.add-to-bag-btn {
+  background: #F39AC8;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+}

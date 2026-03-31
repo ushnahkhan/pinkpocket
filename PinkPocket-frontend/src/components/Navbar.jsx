@@ -5,11 +5,12 @@ import bagicon from "../assets/icons/bagicon.png";
 import proficon from "../assets/icons/loginicon.png";
 
 import { useState } from "react";
+
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <div className="navbar">
-            <Link to="/" className="navbar-left">
+            <Link to="/products" className="navbar-left">  {/* Changed from "/" to "/products" */}
                 <img src={pinkpocketicon} alt="logo" className="navbar-logo"></img>
                 <span className="navbar-title">PinkPocket</span>
             </Link>
@@ -23,7 +24,6 @@ const Navbar = () => {
                 </Link>
             </div>
         </div>
-        
     );
 };
 

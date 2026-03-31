@@ -1,30 +1,83 @@
 :root {
-  --bgcolor:#fef5f8;
-  --pmrycolor:#f39ac8;
-  --sdrycolor:#fbcfe8;
-  --txtcolor:#444;
-  --cardbg:#ffffff;
-  --bordercolor:#f1f1f1;
+  --bgcolor: #fef5f8;
+  --pmrycolor: #f39ac8;
+  --sdrycolor: #fbcfe8;
+  --txtcolor: #444;
+  --cardbg: #ffffff;
+  --bordercolor: #f1f1f1;
+  --filter-bg: #f8e7f0;
+  --filter-text: #5e4b56;
+  --product-card-bg: #ffffff;
+  --placeholder-gradient-start: #f9d0e8;
+  --placeholder-gradient-end: #f0e8ef;
+  --heart-bg: rgba(255, 255, 255, 0.95);
+  --price-color: #f39ac8;
+  --shadow-color: rgba(243, 154, 200, 0.15);
 }
+
+[data-theme="pink"] {
+  --bgcolor: #fef5f8;
+  --pmrycolor: #f39ac8;
+  --sdrycolor: #fbcfe8;
+  --txtcolor: #444;
+  --cardbg: #ffffff;
+  --filter-bg: #f8e7f0;
+  --filter-text: #5e4b56;
+  --placeholder-gradient-start: #f9d0e8;
+  --placeholder-gradient-end: #f0e8ef;
+  --price-color: #f39ac8;
+}
+
 [data-theme="lavender"] {
-  --bgcolor:#c8b8f5;
-  --pmrycolor:#8674ae;
-  --sdrycolor:#ddd6fe;
+  --bgcolor: #f5f0ff;
+  --pmrycolor: #b8a9e0;
+  --sdrycolor: #e6dcff;
+  --txtcolor: #4a4a6a;
+  --cardbg: #ffffff;
+  --filter-bg: #f0eaff;
+  --filter-text: #6b5b8e;
+  --placeholder-gradient-start: #e9e0ff;
+  --placeholder-gradient-end: #ddd2ff;
+  --price-color: #b8a9e0;
 }
+
 [data-theme="mint"] {
-  --bgcolor:#b8f5d0;
-  --pmrycolor:#6cab8d;
-  --sdrycolor:#a7f3d0;
+  --bgcolor: #f0faf4;
+  --pmrycolor: #9bc4b0;
+  --sdrycolor: #d4f0e4;
+  --txtcolor: #446a5a;
+  --cardbg: #ffffff;
+  --filter-bg: #e8f5ed;
+  --filter-text: #5b8b76;
+  --placeholder-gradient-start: #e0f3e8;
+  --placeholder-gradient-end: #d2ecdf;
+  --price-color: #9bc4b0;
 }
+
 [data-theme="peach"] {
-  --bgcolor:#f5d0b8;
-  --pmrycolor:#f8b18e;
-  --sdrycolor:#fed7aa;
+  --bgcolor: #fff5f0;
+  --pmrycolor: #fbc4ab;
+  --sdrycolor: #ffe4d6;
+  --txtcolor: #b87a5a;
+  --cardbg: #ffffff;
+  --filter-bg: #ffefe8;
+  --filter-text: #c89474;
+  --placeholder-gradient-start: #ffe6dc;
+  --placeholder-gradient-end: #ffddd0;
+  --price-color: #fbc4ab;
 }
+
 [data-theme="sky"] {
-  --bgcolor:#b8d0f5;
-  --pmrycolor:#86c4e5;
-  --sdrycolor:#bfdbfe;
+  --bgcolor: #f0f8ff;
+  --pmrycolor: #b5d6e8;
+  --sdrycolor: #e0f0fe;
+  --txtcolor: #5a7e9e;
+  --cardbg: #ffffff;
+  --filter-bg: #e8f2fa;
+  --filter-text: #7a9bbc;
+  --placeholder-gradient-start: #e0edf7;
+  --placeholder-gradient-end: #d4e6f2;
+  --price-color: #b5d6e8;
 }
 
 body {
@@ -459,3 +512,33 @@ h3 {
   justify-content: center;
   align-items: center;
 }
+
+
+/* Theme Icon Sizing & Hover */
+.theme-btn {
+  width: 42px; /* Smaller as requested */
+  height: 42px;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1000;
+}
+
+.theme-btn:hover {
+  transform: scale(1.2) rotate(15deg);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background: white;
+}
+
+.navbar-logo { height: 35px; margin-right: 10px; }
+.navbar-title { font-size: 1.3rem; font-weight: 700; color: #3A2A35; }
+.nav-icon-img { width: 22px; height: 22px; transition: transform 0.2s; }
+.nav-icon-img:hover { transform: scale(1.1); }
