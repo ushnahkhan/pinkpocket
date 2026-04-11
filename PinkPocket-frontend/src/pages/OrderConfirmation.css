@@ -1,0 +1,79 @@
+.confirmation-container {
+    padding:15px;
+    margin:auto;
+    min-height:100vh;
+    align-content: center;
+}
+
+.confirmation-card {
+    background:var(--cardbg);
+    border-radius: 20px;
+    padding:50px;
+    margin:50px;
+    height:fit-content;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    gap:10px;
+    border: 3px solid;
+    border-color: var(--bordercolor);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+}
+.confirmation-card p {
+    color: var(--txtcolor);
+}
+.confirmation-icon {
+    height:120px;
+    width:120px;
+    border-radius: 50px;
+    background: var(--pmrycolor);
+    box-shadow: 0 2px 8px rgba(243, 154, 200, 0.2);
+    padding:20px;
+    align-self: center;
+
+}
+.continue-button {
+    align-self: center;
+    align-items: center;
+    border: 5px solid var(--bordercolor);
+    padding:10px;
+    margin:20px;
+    border-radius: 20px;
+    width: 50%;
+    background: var(--sdrycolor);
+    cursor: pointer;
+}
+
+.continue-button p {
+    font-style: bold;
+    font-size: 20px;
+    color: var(--txtcolor);
+}
+.continue-button:hover {
+    transform: scale(1.05);
+    opacity:0.9;
+}
+@media (max-width:600px) {
+    .continue-button p{
+        font-size: 14px;
+    }
+    .confirmation-icon {
+        height:80px;
+        width:80px;
+        padding:12px;
+    }
+}
+@media (max-width:900px) {
+    .confirmation-icon {
+        height: 100px;
+        width: 100px;
+        padding: 15px;
+    }
+    .continue-button p{
+        font-size: 16px;
+    }
+    
+}

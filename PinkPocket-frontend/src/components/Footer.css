@@ -1,0 +1,90 @@
+.footer-container {
+    width: 100%;
+    height: fit-content;
+    border-radius: 4px;
+    background: var(--cardbg);
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 20px;
+    border-top: 1px solid var(--sdrycolor);
+    margin:auto
+}
+.footer-top {
+    display: flex;
+    justify-content:flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items:center;
+}
+.footer-logo {
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--pmrycolor) 0%, var(--sdrycolor) 100%);
+    padding:6px;
+    margin:12px;
+    box-shadow: 0 2px 8px rgba(243, 154, 200, 0.2);
+}
+.footer-title {
+    font-size: 18px;
+    font-style: bold;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 600;
+    color: var(--txtcolor);
+}
+.footer-info {
+    display: flex;
+    justify-content:space-between;
+    gap: 12px;
+    align-items:flex-start;
+    flex-direction: column;
+    margin:12px;
+}
+.footer-info-title {
+    font-size: 20px;
+    font-style: bold;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 600;
+    color: var(--txtcolor);
+    margin-bottom: 10px;
+}
+.footer-info-rows{
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+}
+.footer-info-rows-container{
+    display: flex;
+    align-items: flex-start;
+    flex-direction:column;
+    gap: 10px;
+}
+.footer-info-rows-text {
+    font-size: 14px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--txtcolor);
+}
+.footer-info-rows-logo {
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    display: block;
+    object-fit: contain;
+    background: linear-gradient(135deg, var(--pmrycolor) 0%, var(--sdrycolor) 100%);
+    box-shadow: 0 2px 5px rgba(243, 154, 200, 0.2);
+}
+/*desktop*/
+@media (min-width: 768px) {
+    .footer-info-rows-container {
+        flex-direction: row;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+}

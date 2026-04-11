@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import logo from "../assets/icons/pinkpicon.png";
-import "./Signup.css";
+import "./signUp.css";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -113,7 +113,7 @@ const Signup = () => {
                 <form onSubmit={handleSubmit} className="signup-form">
                     <div className="input-group">
                         <label className="input-label">
-                            <span className="label-icon">👤</span> Full Name
+                            Full Name
                         </label>
                         <input
                             type="text"
@@ -128,7 +128,7 @@ const Signup = () => {
 
                     <div className="input-group">
                         <label className="input-label">
-                            <span className="label-icon">📧</span> Email Address
+                            Email Address
                         </label>
                         <input
                             type="email"
@@ -143,7 +143,7 @@ const Signup = () => {
 
                     <div className="input-group">
                         <label className="input-label">
-                            <span className="label-icon">🔒</span> Password
+                            Password
                         </label>
                         <div className="password-input-wrapper">
                             <input
@@ -164,13 +164,13 @@ const Signup = () => {
                         </div>
                         {errors.password && <span className="error-text">{errors.password}</span>}
                         <div className="password-hint">
-                            ✨ Must be at least 6 characters with letters and numbers
+                            Must be at least 6 characters with letters and numbers
                         </div>
                     </div>
 
                     <div className="input-group">
                         <label className="input-label">
-                            <span className="label-icon">✓</span> Confirm Password
+                            Confirm Password
                         </label>
                         <div className="password-input-wrapper">
                             <input

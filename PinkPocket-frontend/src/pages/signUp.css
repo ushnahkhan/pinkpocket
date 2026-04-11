@@ -1,11 +1,12 @@
 /* Signup Page Styles */
 .signup-container {
-    min-height: calc(100vh - 70px);
+    height:fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 40px 20px;
-    background: linear-gradient(135deg, var(--bgcolor) 0%, var(--sdrycolor) 100%);
+    margin: auto;
+    background-color: linear-gradient(135deg, var(--bgcolor) 0%, var(--sdrycolor) 100%);
 }
 
 .signup-card {
