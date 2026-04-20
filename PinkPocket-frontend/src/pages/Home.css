@@ -50,7 +50,6 @@
 }
 .grad-text {
     background: linear-gradient(90deg,var(--pmrycolor),var(--sdrycolor));
-    -webkit-background-clip: text;
     color: transparent;
 }
 
