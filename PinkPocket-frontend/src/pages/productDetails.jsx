@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "./ProductDetails.css";
+import "./productDetails.css";
 
 const ProductDetails = () => {
   const { id } = useParams();
