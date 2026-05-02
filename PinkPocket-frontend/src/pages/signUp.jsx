@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import logo from "../assets/icons/pinkpicon.png";
 import "./signUp.css";
-
+import { signupUser } from "../api";
 const Signup = () => {
     const navigate = useNavigate();
     const { signup } = useAuth();
@@ -75,22 +75,20 @@ const Signup = () => {
         
         if (validateForm()) {
             setIsLoading(true);
-            
-            // Simulate API call
-            setTimeout(() => {
-                const success = signup(formData.fullName, formData.email, formData.password);
-                
-                if (success) {
-                    console.log("Signup successful:", formData);
-                    setIsLoading(false);
-                    // Redirect to products page after successful signup
-                    navigate("/products");
-                } else {
-                    setErrors({ general: "Something went wrong. Please try again." });
-                    setIsLoading(false);
-                }
-            }, 1000);
+            try {
+                const res=await signupUser({
+                    name:formData.fullName,
+                    email:formData.email,
+                    password:formData.password,
+                });
+                navigate("/login");
+            } catch {
+                setErrors({general:"Signup failed"});
+            }
+            setIsLoading(false);
         }
+        else
+            return;
     };
 
     return (

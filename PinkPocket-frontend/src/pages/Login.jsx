@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import logo from "../assets/icons/pinkpicon.png";
 import "./Login.css";
+const API = "http://localhost:5000/api";
+import { loginUser } from "../api";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -17,17 +19,27 @@ const Login = () => {
         setError("");
         setIsLoading(true);
         
-        setTimeout(() => {
-            const success = login(email, password);
-            
-            if (success) {
+        try {
+            const res=await fetch(`${API}/auth/login`,{
+                method: "POST",
+                headers: {
+                    "Content-Type":"application/json",
+                },
+                body: JSON.stringify({email,password})
+            });
+            const data=await res.json();
+            if (res.ok&&data.token){
+                localStorage.setItem("token",data.token);
                 console.log("Login successful");
                 navigate("/products");
-            } else {
-                setError("Invalid email or password. Password must be at least 6 characters.");
+            } else{
+                setError(data.message || "Invalid email or password");
             }
-            setIsLoading(false);
-        }, 500);
+        } catch(err){
+            console.error(err);
+            setError("Server error. Please try again.");
+        }
+        setIsLoading(false);
     };
 
     return (

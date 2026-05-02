@@ -100,6 +100,11 @@
     cursor: pointer;
 
 }
+.error-text {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
 .placeorder-btn:hover {
     transform: scale(1.05);
     opacity:0.9;
