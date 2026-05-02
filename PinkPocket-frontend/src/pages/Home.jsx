@@ -106,7 +106,7 @@ const Home=()=>{
                 <h2>Join Our Community</h2>
                 <p>Follow us for daily aesthetic inspirations and exclusive drops!</p>
                 <div className="cta-buttons">
-                    <a href="https://www.instagram.com/pink.pockt?igsh=dHc1c3J4YWtpb3di" target="_blank" rel="noopener noreferrer" className="footer-info-rows-text">
+                    <a href="https://www.instagram.com/thesoftgirlstore?igsh=OXMxcTBnMXJ6cmk4" target="_blank" rel="noopener noreferrer" className="footer-info-rows-text">
                         <img src={hearticon} className="joinus-icons"/>
                         Follow Us on Instagram
                     </a>
