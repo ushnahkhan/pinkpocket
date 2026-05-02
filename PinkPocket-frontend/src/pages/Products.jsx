@@ -53,7 +53,7 @@ const Products = () => {
   return (
     <div className="products-page">
       <div className="products-hero">
-        <h1 className="products-hero-title">Welcome to PinkPocket</h1>
+        <h1 className="products-hero-title">Welcome to theSoftGirlStore</h1>
         <p className="products-hero-subtitle">Discover budget-friendly items with a Pinterest vibe ✨</p>
         
         <div className="products-filter-bar">

@@ -38,7 +38,7 @@ const Login = () => {
                 </div>
                 
                 <h2 className="login-title">Welcome Back! 💕</h2>
-                <p className="login-subtitle">Login to your PinkPocket account</p>
+                <p className="login-subtitle">Login to your theSoftGirlStore account</p>
 
                 {error && (
                     <div className="error-message">

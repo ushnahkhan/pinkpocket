@@ -7,7 +7,7 @@ const OrderConfirmation=()=>{
         <div className="confirmation-container">
             <div className="confirmation-card">
                 <img src={tickicon} className="confirmation-icon"/>
-                <h3>Thank you for ordering from PinkPocket!</h3>
+                <h3>Thank you for ordering from theSoftGirlStore!</h3>
                 <p>Your order has been placed successfully, it will be delivered soon!</p>
                 <button onClick={()=>nav("/products")} className="continue-button">
                     <p>Continue Shopping</p>

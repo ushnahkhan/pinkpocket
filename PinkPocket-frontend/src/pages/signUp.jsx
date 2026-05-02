@@ -102,7 +102,7 @@ const Signup = () => {
                 </div>
                 
                 <h2 className="signup-title">Create Account ✨</h2>
-                <p className="signup-subtitle">Join PinkPocket and start shopping!</p>
+                <p className="signup-subtitle">Join theSoftGirlStore and start shopping!</p>
 
                 {errors.general && (
                     <div className="error-message">
