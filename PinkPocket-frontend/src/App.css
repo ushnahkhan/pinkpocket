@@ -96,32 +96,30 @@ body {
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
 }
-h1,h2,h3 {
+h1, h2, h3 {
   color: var(--txtcolor);
   margin: 0;
 }
 h1 {
-  font-size: clamp(1.5rem,2.5rem,2rem);
+  font-size: clamp(1.5rem, 2.5rem, 2rem);
 }
 h2 {
   font-size: clamp(1.3rem, 2vw, 1.7rem);
 }
-
 h3 {
   font-size: clamp(1.1rem, 1.5vw, 1.4rem);
 }
 
-
 .navbar {
-  height:70px;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
   position: sticky;
-  top:0;
+  top: 0;
   z-index: 100;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--sdrycolor);
 }
@@ -137,14 +135,10 @@ h3 {
   border-radius: 999px;
 }
 
-
 .main-content {
   width: 100%;
-  padding: 20px 0; 
+  padding: 70px 0 20px 0;  /* top padding to avoid hiding under fixed navbar */
 }
-
-
-
 
 .navbar-left {
   display: flex;
@@ -162,19 +156,17 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;   /* ✅ FIXED SIZE (not huge) */
+  font-size: 28px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 .navbar-title {
   font-size: 25px;
   font-style: bold;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-weight: 1000;
   color: var(--txtcolor);
 }
-
-/* RIGHT */
 
 .navbar-right {
   display: flex;
@@ -182,27 +174,22 @@ h3 {
   gap: 18px;
 }
 
-/* LINKS */
-
 .nav-link {
   text-decoration: none;
-  color:var(--txtcolor);
+  color: var(--txtcolor);
   font-size: 25px;
   font-style: bold;
   display: flex;
   align-items: center;
   gap: 4px;
 }
-
 .nav-link:hover {
   color: var(--pmrycolor);
 }
 
-
 .nav-cart {
   position: relative;
 }
-
 .cart-badge {
   position: absolute;
   top: -5px;
@@ -214,11 +201,10 @@ h3 {
   border-radius: 50%;
 }
 
-/*desktop*/
-
-@media (min-width:1024px) {
+/* desktop */
+@media (min-width: 1024px) {
   .grid-3 {
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   .container {
     padding: 40px;
@@ -230,38 +216,30 @@ h3 {
 .section {
   margin-bottom: 24px;
 }
-/*mob*/
-@media (max-width:600px) {
-
+/* mobile */
+@media (max-width: 600px) {
   .nav-link {
     font-size: 13px;
-    gap:2px;
+    gap: 2px;
   }
   .navbar {
     padding: 0 12px;
-    gap:12px;
+    gap: 12px;
   }
   .navbar-title {
     font-size: 16px;
   }
-  .nav-link {
-    gap:12px;
-    font-size: 12px;
-  }
-  
 }
-/*tab*/
+/* tablet */
 @media (min-width: 600px) {
   .navbar-title {
     font-size: 18px;
   }
   .nav-link {
-    gap:12px;
+    gap: 12px;
     font-size: 14px;
   }
 }
-
-
 
 .center {
   display: flex;
@@ -270,7 +248,7 @@ h3 {
 }
 
 .theme-btn {
-  width: 42px; /* Smaller as requested */
+  width: 42px;
   height: 42px;
   position: fixed;
   bottom: 25px;
@@ -279,7 +257,34 @@ h3 {
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 1000;
 }
-
 .theme-btn:hover {
   transform: scale(1.2) rotate(15deg);
+}
+
+/* Hamburger button below navbar (top-left, with gap) */
+.app-hamburger {
+  position: fixed;
+  top: 85px;        /* 70px (navbar height) + 15px gap */
+  left: 20px;
+  width: 44px;
+  height: 44px;
+  background: var(--pmrycolor);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+.app-hamburger:hover {
+  transform: scale(1.05);
+  background: var(--price-color);
+}
+.app-dot {
+  font-size: 28px;
+  color: white;
+  line-height: 1;
+  text-align: center;
 }

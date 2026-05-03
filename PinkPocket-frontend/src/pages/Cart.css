@@ -163,3 +163,11 @@
         
     }
 }
+.continue-shopping-btn {
+  background: none;
+  border: none;
+  color: var(--pmrycolor);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}

@@ -1,67 +1,56 @@
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { getMe } from "../api";
 import "./Profile.css";
-import prodicon from "../assets/icons/p1.png";
-import { useNavigate  } from "react-router-dom";
-import proficon from "../assets/icons/loginicon.png";
-import {useEffect,useState} from "react";
-import {getMe,getMyOrders} from "../api"
-const Profile=()=>{
-    const nav=useNavigate();
-    const [user,setUser]=useState(null);
-    const [orders, setOrders] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const userData = await getMe();
-                setUser(userData);
 
-                const orderData = await getMyOrders();
-                setOrders(orderData);
+const Profile = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchData();
-    }, []);
-    return(
-        <div className="profile-container">
-            <div className="profile-card">
-                <img src={proficon} className="profile-card-icon"/>
-                <div className="profile-card-info">
-                    <h2>{user?.name || "User"}</h2>
-                    <p>{user?.email || "Email"}</p>
-                    <div className="orders-icon">
-                        <p>{orders.length} Orders</p>
-                    </div>
-                </div>
-                <button className="logout-btn" onClick={()=>{
-                    localStorage.removeItem("token");
-                    nav("/login");
-                    }}>
-                    <p>Logout</p>
-                </button>
-            </div>
-            <div className="order-container">
-                <h2>Order History</h2>
-                {orders.length===0?(<p>No orders yet!</p>):(
-                    orders.map(order=>(
-                        <div className="order-card">
-                            <h2>Order #{order._id.slice(-5)}</h2>
-                            <p>Status: {order.status}</p>
-                            <div className="product-container">
-                                {order.items.map((item,i)=> (
-                                    <div className="product-card" key={i}>
-                                        <img className="product-icon" src={item.image}/>
-                                        <p>{item.name}</p>
-                                    </div>
-                                ))}       
-                        </div>
-                    <h5>Total: PKR {order.total?.toLocaleString()}</h5>
-                </div>
-                ))
-                )}
-            </div>
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+    getMe()
+      .then((data) => {
+        setUserData(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        localStorage.removeItem("token");
+        navigate("/login");
+      });
+  }, [navigate]);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  if (loading) return <div className="profile-loading">Loading profile...</div>;
+  if (!userData) return null;
+
+  return (
+    <div className="profile-container-simple">
+      <div className="profile-card-simple">
+        <div className="profile-avatar">👤</div>
+        <h2>{userData.name}</h2>
+        <p>{userData.email}</p>
+        <div className="aesthetic-lines">
+          <p>✨ You're one of a kind ✨</p>
+          <p>💖 Thank you for being part of our soft family 💖</p>
+          <p>🌸 Stay sweet, stay stylish 🌸</p>
         </div>
-    )
-}
+        <Link to="/wishlist" className="profile-wishlist-btn">❤️ My Wishlist</Link>
+        <button className="profile-logout-btn" onClick={handleLogout}>Logout</button>
+      </div>
+    </div>
+  );
+};
+
 export default Profile;

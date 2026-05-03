@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./productDetails.css";
-import { getProduct,getReviews,addReview } from "../api";
+import { getProduct, getReviews, addReview } from "../api";
+import AIAssistant from "../components/AIAssistant";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -20,131 +21,112 @@ const ProductDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [newReview, setNewReview] = useState({
-    rating: 5,
-    comment: ""
-  });
+  const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
+
   useEffect(() => {
-    if(!id)
-      return;
-    getProduct(id).then(setProduct);
+    if (id) getProduct(id).then(setProduct);
   }, [id]);
 
-
   useEffect(() => {
-    if(!id)
-      return;
-    getReviews(id).then(setReviews);
+    if (id) getReviews(id).then(setReviews);
   }, [id]);
 
   const calculateAverageRating = () => {
     if (reviews.length === 0) return "0.0";
-    const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const total = reviews.reduce((sum, r) => sum + r.rating, 0);
     return (total / reviews.length).toFixed(1);
   };
 
   const getRatingDistribution = () => {
-    const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    reviews.forEach(review => {
-      distribution[Math.floor(review.rating)]++;
-    });
-    return distribution;
+    const dist = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    reviews.forEach(r => dist[Math.floor(r.rating)]++);
+    return dist;
   };
 
-  const handleSubmitReview = async() => {
+  const handleSubmitReview = async () => {
     if (!newReview.comment.trim()) return;
     setIsSubmitting(true);
     setError("");
-    try{
+    try {
       const token = localStorage.getItem("token");
       const review = await addReview(id, newReview, token);
       setReviews(prev => [review, ...prev]);
       setNewReview({ rating: 5, comment: "" });
       setShowReviewForm(false);
-    } catch(err) {
+    } catch (err) {
       setError(err.message || "Failed to submit review");
     } finally {
       setIsSubmitting(false);
     }
-    
-
   };
 
   const renderStars = (rating, size = "medium", interactive = false, onStarClick = null) => {
     const starSize = size === "small" ? "14px" : size === "large" ? "22px" : "18px";
-    
     return (
       <div className="stars-container">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <span 
-            key={star} 
-            className={`star ${star <= rating ? 'filled' : 'empty'}`}
-            style={{ 
-              fontSize: starSize,
-              cursor: interactive ? 'pointer' : 'default'
-            }}
+        {[1, 2, 3, 4, 5].map(star => (
+          <span
+            key={star}
+            className={`star ${star <= rating ? "filled" : "empty"}`}
+            style={{ fontSize: starSize, cursor: interactive ? "pointer" : "default" }}
             onClick={interactive ? () => onStarClick && onStarClick(star) : undefined}
           >
-            {star <= rating ? '★' : '☆'}
+            {star <= rating ? "★" : "☆"}
           </span>
         ))}
       </div>
     );
   };
 
-  const isImageUrl = (src) => {
-    return src && (src.startsWith('http') || src.startsWith('https'));
-  };
-
-
+  const isImageUrl = (src) => src && (src.startsWith("http") || src.startsWith("https"));
 
   const handleAddToCart = () => {
-    const existing = JSON.parse(localStorage.getItem("cart")) || [];
+  const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+  const existingItem = existingCart.find(item => item.productId === product._id);
 
-    existing.push({
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    existingCart.push({
       productId: product._id,
       name: product.name,
       price: product.price,
-      quantity
+      image: product.image,
+      category: product.category,
+      quantity: quantity
     });
-
-    localStorage.setItem("cart", JSON.stringify(existing));
-    setAddedToCart(true);
-  };
-
-  if (!product) {
-    return <div className="product-details-loading">Loading...</div>;
   }
+
+  localStorage.setItem("cart", JSON.stringify(existingCart));
+  setAddedToCart(true);
+  setTimeout(() => setAddedToCart(false), 2000);
+};
+
+  if (!product) return <div className="product-details-loading">Loading...</div>;
 
   const isLowStock = product.stock < 10;
   const avgRating = calculateAverageRating();
   const ratingDistribution = getRatingDistribution();
   const totalReviews = reviews.length;
-  const isJournal = product.type === "journal";
 
   return (
     <div className="product-details-page">
       <div className="product-details-container">
-        {/* Back Button - Top Left */}
-        <button 
-          onClick={() => navigate("/products")} 
-          className="back-button"
-        >
+        <button onClick={() => navigate("/products")} className="back-button">
           ← Back to Products
         </button>
 
-        {/* Product Section - Image Left, Details Right */}
         <div className="product-section">
-          {/* Left Column - Product Image */}
+          {/* Left column: image */}
           <div className="product-image-col">
             <div className="product-image-wrapper">
               {isImageUrl(product.image) ? (
-                <img 
-                  src={product.image} 
+                <img
+                  src={product.image}
                   alt={product.name}
                   className="product-image-main"
                   onError={(e) => {
-                    e.target.style.display = 'none';
+                    e.target.style.display = "none";
                     e.target.parentElement.innerHTML = '<div class="image-placeholder">🛍️</div>';
                   }}
                 />
@@ -154,28 +136,20 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* Right Column - Product Details */}
+          {/* Right column: details */}
           <div className="product-details-col">
             <h1 className="product-name">{product.name}</h1>
             <p className="product-category-text">{product.category}</p>
-            
             <div className="product-price-large">PKR {product.price.toLocaleString()}</div>
-            
-            {product.description && (
-              <p className="product-description-text">{product.description}</p>
-            )}
+            {product.description && <p className="product-description-text">{product.description}</p>}
 
-            {/* Color Options */}
+            {/* Color options (if any) */}
             {product.colors && product.type !== "phone_case" && (
               <div className="option-section">
                 <label className="option-label">Choose Color</label>
                 <div className="color-options">
-                  {product.colors.map((color) => (
-                    <button
-                      key={color}
-                      className={`color-btn ${selectedColor === color ? "active" : ""}`}
-                      onClick={() => setSelectedColor(color)}
-                    >
+                  {product.colors.map(color => (
+                    <button key={color} className={`color-btn ${selectedColor === color ? "active" : ""}`} onClick={() => setSelectedColor(color)}>
                       {color}
                     </button>
                   ))}
@@ -183,17 +157,13 @@ const ProductDetails = () => {
               </div>
             )}
 
-            {/* Phone Model Options */}
+            {/* Phone model options (if any) */}
             {product.models && (
               <div className="option-section">
                 <label className="option-label">Choose Model</label>
                 <div className="color-options">
-                  {product.models.map((model) => (
-                    <button
-                      key={model}
-                      className={`color-btn ${selectedModel === model ? "active" : ""}`}
-                      onClick={() => setSelectedModel(model)}
-                    >
+                  {product.models.map(model => (
+                    <button key={model} className={`color-btn ${selectedModel === model ? "active" : ""}`} onClick={() => setSelectedModel(model)}>
                       {model}
                     </button>
                   ))}
@@ -201,8 +171,8 @@ const ProductDetails = () => {
               </div>
             )}
 
-            {/* Personalization for Journal/Planner - Only ONE field */}
-            {isJournal && (
+            {/* Personalisation for journals */}
+            {product.type === "journal" && (
               <div className="option-section">
                 <label className="option-label">Add Personalization (Optional)</label>
                 <input
@@ -217,37 +187,23 @@ const ProductDetails = () => {
               </div>
             )}
 
-            {/* Quantity */}
+            {/* Quantity and stock */}
             <div className="option-section">
               <label className="option-label">Quantity</label>
               <div className="quantity-controls">
-                <button 
-                  className="qty-btn"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                >
-                  −
-                </button>
+                <button className="qty-btn" onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
                 <span className="qty-value">{quantity}</span>
-                <button 
-                  className="qty-btn"
-                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                >
-                  +
-                </button>
+                <button className="qty-btn" onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}>+</button>
               </div>
               <div className={`stock-status ${isLowStock ? "low" : ""}`}>
                 {isLowStock ? `⚠️ Only ${product.stock} items left!` : `✓ ${product.stock} in stock`}
               </div>
             </div>
 
-            {/* Gift Option */}
+            {/* Gift option */}
             <div className="option-section">
               <label className="gift-checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={giftOption}
-                  onChange={(e) => setGiftOption(e.target.checked)}
-                />
+                <input type="checkbox" checked={giftOption} onChange={(e) => setGiftOption(e.target.checked)} />
                 <span>🎁 Gift Wrap & Personalized Message</span>
               </label>
               {giftOption && (
@@ -265,15 +221,10 @@ const ProductDetails = () => {
               )}
             </div>
 
-            {/* Add to Cart Button */}
-            <button 
-              className={`add-to-cart-button ${addedToCart ? "added" : ""}`}
-              onClick={handleAddToCart}
-            >
+            <button className={`add-to-cart-button ${addedToCart ? "added" : ""}`} onClick={handleAddToCart}>
               {addedToCart ? "✓ Added to Cart" : "🛍️ Add to Bag"}
             </button>
 
-            {/* Product Info Footer */}
             <div className="product-info-footer">
               <h4>Product Details</h4>
               <ul>
@@ -286,7 +237,7 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        {/* Reviews Section - Below */}
+        {/* Reviews section */}
         <div className="reviews-section">
           <div className="reviews-header">
             <h3>💬 Customer Reviews ✨</h3>
@@ -295,25 +246,18 @@ const ProductDetails = () => {
             </button>
           </div>
 
-          {/* Write Review Form */}
           {showReviewForm && (
             <div className="review-form-container">
               <div className="form-field">
                 <label>Your Rating</label>
                 <div className="centered-rating">
-                  {renderStars(newReview.rating, "large", true, (star) => setNewReview({...newReview, rating: star}))}
+                  {renderStars(newReview.rating, "large", true, (star) => setNewReview({ ...newReview, rating: star }))}
                   <span className="rating-value-text">{newReview.rating} out of 5 stars</span>
                 </div>
               </div>
               <div className="form-field">
                 <label>Your Review</label>
-                <textarea
-                  rows="4"
-                  placeholder="Share your experience with this product..."
-                  value={newReview.comment}
-                  onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
-                  className="review-textarea"
-                />
+                <textarea rows="4" placeholder="Share your experience..." value={newReview.comment} onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })} className="review-textarea" />
               </div>
               <div className="form-buttons">
                 <button className="cancel-btn" onClick={() => setShowReviewForm(false)}>Cancel</button>
@@ -323,7 +267,6 @@ const ProductDetails = () => {
           )}
           {error && <p className="error-text">{error}</p>}
 
-          {/* Rating Summary */}
           <div className="rating-summary-grid">
             <div className="avg-score">
               <div className="big-rating">{avgRating}</div>
@@ -333,13 +276,11 @@ const ProductDetails = () => {
             <div className="rating-bars-list">
               {[5, 4, 3, 2, 1].map(rating => {
                 const count = ratingDistribution[rating] || 0;
-                const percentage = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
+                const percent = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
                 return (
                   <div key={rating} className="bar-item">
                     <span className="star-label">{rating} ★</span>
-                    <div className="bar-background">
-                      <div className="bar-fill-progress" style={{ width: `${percentage}%` }}></div>
-                    </div>
+                    <div className="bar-background"><div className="bar-fill-progress" style={{ width: `${percent}%` }}></div></div>
                     <span className="count-label">{count}</span>
                   </div>
                 );
@@ -347,12 +288,11 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* Reviews List */}
           <div className="reviews-list-container">
-            {reviews.map((review) => (
+            {reviews.map(review => (
               <div key={review._id} className="review-card-item">
                 <div className="review-card-header">
-                  <div className="avatar-circle">{review.avatar}</div>
+                  <div className="avatar-circle">{review.name?.[0] || "U"}</div>
                   <div className="reviewer-info">
                     <div className="reviewer-name-row">
                       {review.name}
@@ -368,6 +308,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+      <AIAssistant productId={id} />
     </div>
   );
 };

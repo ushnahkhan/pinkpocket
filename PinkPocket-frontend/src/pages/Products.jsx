@@ -1,31 +1,57 @@
-import { useState,useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import "./Products.css";
 import { getProducts } from "../api";
+import { addToWishlist, removeFromWishlist, isInWishlist } from "../utils/wishlist";
 
 const Products = () => {
-  const [activeFilter, setFilter] = useState("All");
+  const [searchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("category");
+
+  const [activeFilter, setFilter] = useState(categoryFromUrl || "All");
   const [liked, setLiked] = useState({});
   const [cart, setCart] = useState({});
-
+  const [products, setProducts] = useState([]);
   const categories = ["All", "Stationery", "Accessories"];
 
-  const [products,setProducts]=useState([]);
-  useEffect(()=>{
+  useEffect(() => {
     getProducts().then(setProducts);
-  },[]);
-  
+  }, []);
 
-  const toggleLike = (id) => {
-    setLiked(prev => ({ ...prev, [id]: !prev[id] }));
+  // When URL category changes, update activeFilter
+  useEffect(() => {
+    if (categoryFromUrl && categories.includes(categoryFromUrl)) {
+      setFilter(categoryFromUrl);
+    } else if (!categoryFromUrl) {
+      setFilter("All");
+    }
+  }, [categoryFromUrl, categories]);
+
+  // Load liked state from localStorage wishlist
+  useEffect(() => {
+    if (products.length === 0) return;
+    const initialLiked = {};
+    products.forEach(product => {
+      initialLiked[product._id] = isInWishlist(product._id);
+    });
+    setLiked(initialLiked);
+  }, [products]);
+
+  const toggleLike = (product) => {
+    const newLiked = !liked[product._id];
+    setLiked(prev => ({ ...prev, [product._id]: newLiked }));
+    if (newLiked) {
+      addToWishlist(product);
+    } else {
+      removeFromWishlist(product._id);
+    }
   };
 
   const addToCart = (id) => {
-    const selectedProduct = products.find(p => p._id === id);
+  const selectedProduct = products.find(p => p._id === id);
   if (!selectedProduct) return;
 
   const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-
   const existingItem = existingCart.find(item => item.productId === id);
 
   if (existingItem) {
@@ -42,29 +68,21 @@ const Products = () => {
   }
 
   localStorage.setItem("cart", JSON.stringify(existingCart));
-
-  // UI feedback
   setCart(prev => ({ ...prev, [id]: true }));
-  setTimeout(() => {
-    setCart(prev => ({ ...prev, [id]: false }));
-  }, 1500);
+  setTimeout(() => setCart(prev => ({ ...prev, [id]: false })), 1500);
 };
 
-  const filtered = activeFilter === "All" 
+  const filtered = activeFilter === "All"
     ? products
     : products.filter(p => p.category === activeFilter);
 
-  // Function to check if image is a URL
-  const isImageUrl = (src) => {
-    return src && (src.startsWith('http') || src.startsWith('https'));
-  };
+  const isImageUrl = (src) => src && (src.startsWith('http') || src.startsWith('https'));
 
   return (
     <div className="products-page">
       <div className="products-hero">
         <h1 className="products-hero-title">Welcome to theSoftGirlStore</h1>
         <p className="products-hero-subtitle">Discover budget-friendly items with a Pinterest vibe ✨</p>
-        
         <div className="products-filter-bar">
           {categories.map((cat) => (
             <button
@@ -82,14 +100,10 @@ const Products = () => {
         {filtered.map((product) => (
           <Link to={`/product/${product._id}`} key={product._id} style={{ textDecoration: 'none' }}>
             <div className="shop-product-card">
-              {/* Product Image Container */}
               <div className="shop-product-img-container">
                 <div className="shop-product-img-placeholder">
                   {isImageUrl(product.image) ? (
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="product-image"
+                    <img src={product.image} alt={product.name} className="product-image"
                       onError={(e) => {
                         e.target.style.display = 'none';
                         e.target.parentElement.innerHTML = '<div class="placeholder-icon">🛍️</div>';
@@ -99,25 +113,23 @@ const Products = () => {
                     <div className="placeholder-icon">{product.image || "🛍️"}</div>
                   )}
                 </div>
-                <button 
+                <button
                   className={`heart-btn-figma ${liked[product._id] ? "liked" : ""}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    toggleLike(product._id);
+                    toggleLike(product);
                   }}
                   aria-label="Add to wishlist"
                 >
                   {liked[product._id] ? "♥" : "♡"}
                 </button>
               </div>
-
-              {/* Product Info Section */}
               <div className="shop-product-info">
                 <div className="shop-product-name">{product.name}</div>
                 <div className="shop-product-category">{product.category.toLowerCase()}</div>
                 <div className="shop-product-footer">
                   <div className="shop-product-price">PKR {product.price.toLocaleString()}</div>
-                  <button 
+                  <button
                     className={`add-to-bag-btn ${cart[product._id] ? "added" : ""}`}
                     onClick={(e) => {
                       e.preventDefault();
