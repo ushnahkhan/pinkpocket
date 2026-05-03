@@ -8,7 +8,9 @@ import { useState } from "react";
 
 const Navbar = () => {
     const location=useLocation();
-    const ishome=location.pathname==="/";
+    const isnotloggedin=location.pathname==="/" || location.pathname==="/login"||location.pathname==="/signup";
+
+
 
     return (
         <div className="navbar">
@@ -18,7 +20,7 @@ const Navbar = () => {
             </Link>
             
                 
-                {!ishome &&(
+                {!isnotloggedin &&(
                     <div className="navbar-right">
                         <Link to="/products" className="nav-link">Shop</Link>
                         <Link to="/cart" className="nav-cart">
@@ -30,7 +32,7 @@ const Navbar = () => {
                     </div>
 
                 )}
-                {ishome &&(
+                {isnotloggedin &&(
                     <div className="navbar-right">
                         <Link to="/login" className="nav-link">Login 
                             <img src={proficon} alt="proflogo" className="navbar-logo"></img>

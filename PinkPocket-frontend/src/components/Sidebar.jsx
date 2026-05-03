@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Sidebar.css";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = ({ isOpen, closeSidebar }) => {
   const { user, logout } = useAuth();
@@ -11,6 +12,10 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
   const [stationeryProducts, setStationeryProducts] = useState([]);
   const [accessoriesProducts, setAccessoriesProducts] = useState([]);
   const navigate = useNavigate();
+  const hideCartWishlist = 
+  location.pathname === "/" || 
+  location.pathname === "/login" || 
+  location.pathname === "/signup";
 
   useEffect(() => {
     fetch("http://localhost:5000/api/products")
@@ -35,7 +40,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
   const handleLogout = () => {
     logout();
     closeSidebar();
-    navigate("/login");
+    window.location.href="/login";
   };
 
   return (
@@ -68,12 +73,22 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         )}
 
         <nav className="sidebar-nav">
-          <Link to="/cart" className="sidebar-link" onClick={closeSidebar}>🛒 Cart</Link>
+          {!hideCartWishlist && (
+            <>
+              <Link to="/cart" className="sidebar-link" onClick={closeSidebar}>
+                Cart
+              </Link>
 
-          {user ? (
-            <Link to="/wishlist" className="sidebar-link" onClick={closeSidebar}>❤️ My Wishlist</Link>
-          ) : (
-            <Link to="/signup" className="sidebar-link" onClick={closeSidebar}>❤️ Wishlist (Sign up to save)</Link>
+            {user ? (
+              <Link to="/wishlist" className="sidebar-link" onClick={closeSidebar}>
+                ❤️ My Wishlist
+              </Link>
+            ) : (
+              <Link to="/signup" className="sidebar-link" onClick={closeSidebar}>
+                ❤️ Wishlist (Sign up to save)
+              </Link>
+            )}
+            </>
           )}
 
           <Link to="/" className="sidebar-link" onClick={closeSidebar}>🏠 Home</Link>

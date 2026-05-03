@@ -40,7 +40,7 @@ exports.addReview = async (req, res) => {
         comment,
     });
 
-    return res.json(review);
+    return res,status(201).json(review);
 
     } catch (err) {
         return res.status(500).json({ error: err.message });

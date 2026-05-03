@@ -34,23 +34,25 @@ export const getReviews = (productId) =>
     fetch(`http://localhost:5000/api/reviews/${productId}`)
         .then(res => res.json());
 
-export const addReview = async (id, data, token) => {
-    const res = await fetch(`/api/reviews/${id}`, {
+export const addReview = async (productId, data, token) => {
+    const res = await fetch(`http://localhost:5000/api/reviews/${productId}`, {
         method: "POST",
         headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(data)
     });
 
-    const result = await res.json();
+    const text = await res.text(); // 🔥 SAFER
 
-    if (!res.ok) {
-        throw new Error(result.message || "Failed to add review");
+    try {
+        const data = text ? JSON.parse(text) : {};
+        if (!res.ok) throw new Error(data.message || "Failed");
+        return data;
+    } catch {
+        throw new Error("Invalid server response");
     }
-
-    return result;
 };
 const getToken = () => localStorage.getItem("token");
 
@@ -76,4 +78,48 @@ export const getMyOrders = async () => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to fetch orders");
     return data;
+};
+
+export const addToCartAPI = async (product) => {
+    const res = await fetch("http://localhost:5000/api/cart", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(product)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+export const getCartAPI = async () => {
+    const res = await fetch("http://localhost:5000/api/cart", {
+        headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    });
+    return res.json();
+};
+
+export const updateCartAPI = async (productId, delta) => {
+    const res = await fetch("http://localhost:5000/api/cart/update", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({ productId, delta })
+    });
+    return res.json();
+};
+
+export const removeFromCartAPI = async (productId) => {
+    const res = await fetch(`http://localhost:5000/api/cart/${productId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    });
+    return res.json();
 };

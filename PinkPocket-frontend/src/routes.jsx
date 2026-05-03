@@ -9,17 +9,26 @@ import Profile from "./pages/Profile";
 import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import Wishlist from "./pages/Wishlist";
+import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/products" element={<Products />} />
+      <Route path="/products" element={
+        <ProtectedRoute>
+          <Products />
+        </ProtectedRoute>
+        } />
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/profile" element={
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+        } />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/orderconfirmation" element={<OrderConfirmation />} />
       <Route path="/wishlist" element={<Wishlist />} />

@@ -3,32 +3,43 @@ import productImg from "../assets/icons/p1.png"; // replace with your image
 import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCartAPI, updateCartAPI, removeFromCartAPI } from "../api";
 const Cart = () => {
     const [cart, setCart] = useState([]);
     const navigate = useNavigate()
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem("cart")) || [];
-        setCart(data);
-    }, []);
-    const updateQuantity = (index, delta) => {
-        const updatedCart = [...cart];
-        updatedCart[index].quantity += delta;
-
-        if (updatedCart[index].quantity <= 0) {
-            updatedCart.splice(index, 1);
+    const fetchCart = async () => {
+        try {
+            const data = await getCartAPI();
+            setCart(data.items || []);
+        } catch (err) {
+            console.error("Failed to load cart:", err);
         }
-
-        setCart(updatedCart);
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
     };
 
-    // Delete item
-    const deleteItem = (index) => {
-        const updatedCart = cart.filter((_, i) => i !== index);
-        setCart(updatedCart);
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        fetchCart();
+    }, []);
+    const updateQuantity = async (productId, delta) => {
+    try {
+        const updatedCart = await updateCartAPI(productId, delta);
+        setCart(updatedCart.items);
+    } catch (err) {
+        console.error("Update failed:", err);
+    }
     };
-    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+    const deleteItem = async (productId) => {
+    try {
+        const updatedCart = await removeFromCartAPI(productId);
+        setCart(updatedCart.items);
+    } catch (err) {
+        console.error("Delete failed:", err);
+    }
+    };
+    const total = cart.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+    );
     return (
         <div className="cart-container">
             <h2 className="cart-title">Shopping Bag</h2>
@@ -45,9 +56,9 @@ const Cart = () => {
                                 <p className="cart-category">{item.category}</p>
 
                                 <div className="cart-qty">
-                                    <button onClick={()=>updateQuantity(index,-1)}>-</button>
+                                    <button onClick={()=>updateQuantity(item.productId,-1)}>-</button>
                                     <span>{item.quantity}</span>
-                                    <button onClick={()=>updateQuantity(index,1)
+                                    <button onClick={()=>updateQuantity(item.productId,1)
 
                                     }>+</button>
                                 </div>
@@ -55,7 +66,7 @@ const Cart = () => {
 
                             <div className="cart-right">
                                 <span className="cart-price">PKR {(item.price * item.quantity).toLocaleString()}</span>
-                                <span className="cart-delete" onClick={()=>deleteItem(index)} style={{cursor:"pointer"}}>🗑</span>
+                                <span className="cart-delete" onClick={()=>deleteItem(item.productId)} style={{cursor:"pointer"}}>🗑</span>
                             </div>
                             </div>
                             ))

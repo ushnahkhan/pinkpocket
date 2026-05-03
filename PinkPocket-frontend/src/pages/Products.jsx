@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import "./Products.css";
-import { getProducts } from "../api";
+import { getProducts,addToCartAPI } from "../api";
 import { addToWishlist, removeFromWishlist, isInWishlist } from "../utils/wishlist";
 
 const Products = () => {
@@ -47,29 +47,24 @@ const Products = () => {
     }
   };
 
-  const addToCart = (id) => {
+  const addToCart = async (id) => {
   const selectedProduct = products.find(p => p._id === id);
   if (!selectedProduct) return;
 
-  const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-  const existingItem = existingCart.find(item => item.productId === id);
-
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    existingCart.push({
-      productId: selectedProduct._id,
-      name: selectedProduct.name,
-      price: selectedProduct.price,
-      image: selectedProduct.image,
-      category: selectedProduct.category,
-      quantity: 1
+  try {
+    await addToCartAPI({
+      productId: selectedProduct._id
     });
-  }
 
-  localStorage.setItem("cart", JSON.stringify(existingCart));
-  setCart(prev => ({ ...prev, [id]: true }));
-  setTimeout(() => setCart(prev => ({ ...prev, [id]: false })), 1500);
+    // UI feedback only
+    setCart(prev => ({ ...prev, [id]: true }));
+    setTimeout(() => {
+      setCart(prev => ({ ...prev, [id]: false }));
+    }, 1500);
+
+  } catch (err) {
+    console.error("Cart error:", err);
+  }
 };
 
   const filtered = activeFilter === "All"
