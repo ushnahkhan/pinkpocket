@@ -18,7 +18,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
   location.pathname === "/signup";
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://pinkpocket.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => {
         setStationeryProducts(data.filter((p) => p.category === "Stationery"));

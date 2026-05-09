@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "./AIAssistant.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://pinkpocket.onrender.com/api";
 
 const AIAssistant = ({ productId }) => {
   const [isOpen, setIsOpen] = useState(false);
