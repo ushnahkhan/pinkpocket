@@ -7,10 +7,8 @@ import { useLocation } from "react-router-dom";
 const Sidebar = ({ isOpen, closeSidebar }) => {
   const { user, logout } = useAuth();
   const [productsOpen, setProductsOpen] = useState(false);
-  const [stationeryOpen, setStationeryOpen] = useState(false);
-  const [accessoriesOpen, setAccessoriesOpen] = useState(false);
-  const [stationeryProducts, setStationeryProducts] = useState([]);
-  const [accessoriesProducts, setAccessoriesProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [openCategories, setOpenCategories] = useState({});
   const navigate = useNavigate();
   const hideCartWishlist = 
   location.pathname === "/" || 
@@ -21,12 +19,28 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
     fetch("https://pinkpocket.onrender.com/api/products")
       .then((res) => res.json())
       .then((data) => {
-        setStationeryProducts(data.filter((p) => p.category === "Stationery"));
-        setAccessoriesProducts(data.filter((p) => p.category === "Accessories"));
+        if (Array.isArray(data)) {
+        setProducts(data);
+        } else {
+          setProducts([]);
+        }
       })
-      .catch((err) => console.error("Failed to fetch products", err));
-  }, []);
-
+      .catch((err) => {
+        console.error("Failed to fetch products", err);
+        setProducts([]);
+      });
+    }, []);
+    const categories = [
+    ...new Set(
+      products.map((p) => String(p.category || "").trim())
+    ),
+  ];
+  const toggleCategory = (category) => {
+  setOpenCategories((prev) => ({
+    ...prev,
+    [category]: !prev[category],
+    }));
+  };
   const handleCategoryClick = (category) => {
     navigate(`/products?category=${category}`);
     closeSidebar();
@@ -99,9 +113,8 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
               <span className="category-header-label">Products</span>
               <span className={`arrow ${productsOpen ? "up" : "down"}`}>{productsOpen ? "▲" : "▼"}</span>
             </div>
-            {productsOpen && (
+            {/* {productsOpen && (
               <div className="nested-dropdown">
-                {/* Stationery */}
                 <div className="subcategory">
                   <div className="subcategory-header">
                     <button className="subcategory-btn" onClick={() => handleCategoryClick("Stationery")}>
@@ -132,7 +145,6 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
                   )}
                 </div>
 
-                {/* Accessories */}
                 <div className="subcategory">
                   <div className="subcategory-header">
                     <button className="subcategory-btn" onClick={() => handleCategoryClick("Accessories")}>
@@ -163,7 +175,60 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
                   )}
                 </div>
               </div>
-            )}
+            )} */}
+            {productsOpen && (
+  <div className="nested-dropdown">
+    {categories.map((category) => {
+      const categoryProducts = products.filter(
+        (p) =>
+          String(p.category || "").trim() === category
+      );
+
+      return (
+        <div className="subcategory" key={category}>
+          <div className="subcategory-header">
+            <button
+              className="subcategory-btn"
+              onClick={() => handleCategoryClick(category)}
+            >
+              {category}
+            </button>
+
+            <span
+              className={`arrow ${
+                openCategories[category] ? "up" : "down"
+              }`}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleCategory(category);
+              }}
+            >
+              {openCategories[category] ? "▲" : "▼"}
+            </span>
+          </div>
+
+          {openCategories[category] && (
+            <div className="product-list">
+              {categoryProducts.length === 0 ? (
+                <div className="empty-message">No products</div>
+              ) : (
+                categoryProducts.map((p) => (
+                  <button
+                    key={p._id}
+                    className="product-item"
+                    onClick={() => handleProductClick(p._id)}
+                  >
+                    {p.name}
+                  </button>
+                ))
+              )}
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+)}
           </div>
 
           <div className="sidebar-spacer"></div>
