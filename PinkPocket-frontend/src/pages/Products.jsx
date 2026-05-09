@@ -69,7 +69,7 @@ const Products = () => {
 
   const filtered = activeFilter === "All"
     ? products
-    : products.filter(p => p.category === activeFilter);
+    : products.filter(p => p.category?.trim().toLowerCase() === activeFilter.toLowerCase());
 
   const isImageUrl = (src) =>
   src &&
