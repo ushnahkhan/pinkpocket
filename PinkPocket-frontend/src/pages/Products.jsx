@@ -71,7 +71,13 @@ const Products = () => {
     ? products
     : products.filter(p => p.category === activeFilter);
 
-  const isImageUrl = (src) => src && (src.startsWith('http') || src.startsWith('https'));
+  const isImageUrl = (src) =>
+  src &&
+  (
+    src.startsWith("http") ||
+    src.startsWith("https") ||
+    src.startsWith("/")
+  );
 
   return (
     <div className="products-page">

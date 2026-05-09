@@ -78,8 +78,13 @@ const ProductDetails = () => {
     );
   };
 
-  const isImageUrl = (src) => src && (src.startsWith("http") || src.startsWith("https"));
-
+const isImageUrl = (src) =>
+  src &&
+  (
+    src.startsWith("http") ||
+    src.startsWith("https") ||
+    src.startsWith("/")
+  );
   const handleAddToCart = () => {
   const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
   const existingItem = existingCart.find(item => item.productId === product._id);
