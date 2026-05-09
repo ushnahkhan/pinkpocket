@@ -82,7 +82,6 @@ const Products = () => {
 };
 
   const filtered = activeFilter === "All"
-    activeFilter === "All"
     ? products
     : products.filter(
         (p) =>
@@ -150,7 +149,7 @@ const Products = () => {
               </div>
               <div className="shop-product-info">
                 <div className="shop-product-name">{product.name}</div>
-                <div className="shop-product-category">{product.category.toLowerCase()}</div>
+                <div className="shop-product-category">{String(product.category || "").toLowerCase()}</div>
                 <div className="shop-product-footer">
                   <div className="shop-product-price">PKR {product.price.toLocaleString()}</div>
                   <button
