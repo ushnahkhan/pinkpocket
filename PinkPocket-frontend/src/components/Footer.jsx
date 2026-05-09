@@ -30,11 +30,11 @@ const Footer = () => {
                     </div>
                     <div className="footer-info-rows">
                         <img className="footer-info-rows-logo" src={emailicon}></img>
-                        <div className="footer-info-rows-text">softgirlstore@gmail.com</div>
+                        <div className="footer-info-rows-text">pinkpocktt@gmail.com</div>
                     </div>
                     <div className="footer-info-rows">
                         <img className="footer-info-rows-logo" src={instagramicon}></img>
-                        <a href="https://www.instagram.com/thesoftgirlstore?igsh=OXMxcTBnMXJ6cmk4" target="_blank" rel="noopener noreferrer" className="footer-info-rows-text">@instagram/thesoftgirlstore</a>
+                        <a href="https://www.instagram.com/pink.pockt?igsh=dHc1c3J4YWtpb3di" target="_blank" rel="noopener noreferrer" className="footer-info-rows-text">@instagram/pink.pockt</a>
                     </div>
                     <div className="footer-info-rows">
                         <img className="footer-info-rows-logo" src={whatsappicon}></img>

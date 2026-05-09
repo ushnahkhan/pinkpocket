@@ -37,7 +37,7 @@ const Login = () => {
           <img src={logo} alt="PinkPocket" className="login-logo" />
         </div>
         <h2 className="login-title">Welcome Back! 💕</h2>
-        <p className="login-subtitle">Login to your theSoftGirlStore account</p>
+        <p className="login-subtitle">Login to your PinkPocket account</p>
         {error && <div className="error-message"><span>⚠️</span> {error}</div>}
         <form onSubmit={handleLogin} className="login-form">
           <div className="input-group">

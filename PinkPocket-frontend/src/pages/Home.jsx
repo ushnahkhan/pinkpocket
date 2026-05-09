@@ -113,7 +113,7 @@ const Home = () => {
         <p>Follow us for daily aesthetic inspirations and exclusive drops!</p>
         <div className="cta-buttons">
           <a
-            href="https://www.instagram.com/thesoftgirlstore?igsh=OXMxcTBnMXJ6cmk4"
+            href="https://www.instagram.com/pink.pockt?igsh=dHc1c3J4YWtpb3di"
             target="_blank"
             rel="noopener noreferrer"
             className="footer-info-rows-text"
