@@ -12,10 +12,24 @@ const Products = () => {
   const [liked, setLiked] = useState({});
   const [cart, setCart] = useState({});
   const [products, setProducts] = useState([]);
-  const categories = ["All", new Set(products.map(p=>p.category?.trim()))];
+  const categories = ["All", new Set((Array.isArray(products) ? products : [])
+      .map((p) => String(p.category || "").trim())
+      .filter(Boolean))];
 
   useEffect(() => {
-    getProducts().then(setProducts);
+    getProducts()
+    .then((data) => {
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else {
+        console.error("Products is not an array:", data);
+        setProducts([]);
+      }
+    })
+    .catch((err) => {
+      console.error("Failed to fetch products:", err);
+      setProducts([]);
+    });
   }, []);
 
   // When URL category changes, update activeFilter
