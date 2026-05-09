@@ -1,4 +1,4 @@
-const API = "https://pinkpocket.onrender.com";
+const API = "https://pinkpocket.onrender.com/api";
 
 export const signupUser = (data) =>
     fetch(`${API}/auth/signup`, {
