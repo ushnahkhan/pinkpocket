@@ -85,7 +85,7 @@ const isImageUrl = (src) =>
     src.startsWith("https") ||
     src.startsWith("/")
   );
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     try {
       await addToCartAPI({
         productId: product._id
