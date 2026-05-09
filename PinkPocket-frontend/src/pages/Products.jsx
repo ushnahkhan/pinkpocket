@@ -12,7 +12,7 @@ const Products = () => {
   const [liked, setLiked] = useState({});
   const [cart, setCart] = useState({});
   const [products, setProducts] = useState([]);
-  const categories = ["All", "Stationery", "Accessories"];
+  const categories = ["All", new Set(products.map(p=>p.category?.trim()))];
 
   useEffect(() => {
     getProducts().then(setProducts);
@@ -25,7 +25,7 @@ const Products = () => {
     } else if (!categoryFromUrl) {
       setFilter("All");
     }
-  }, [categoryFromUrl, categories]);
+  }, [categoryFromUrl]);
 
   // Load liked state from localStorage wishlist
   useEffect(() => {
