@@ -16,7 +16,7 @@ const Navbar = () => {
         <div className="navbar">
             <Link to="/" className="navbar-left">  {/* Changed from "/" to "/products" */}
                 <img src={pinkpocketicon} alt="logo" className="navbar-logo"></img>
-                <span className="navbar-title">theSoftGirlStore</span>
+                <span className="navbar-title">PinkPocket</span>
             </Link>
             
                 
