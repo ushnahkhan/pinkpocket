@@ -68,8 +68,17 @@ const Products = () => {
 };
 
   const filtered = activeFilter === "All"
+    activeFilter === "All"
     ? products
-    : products.filter(p => p.category?.trim().toLowerCase() === activeFilter.toLowerCase());
+    : products.filter(
+        (p) =>
+          String(p.category || "")
+            .trim()
+            .toLowerCase() ===
+          String(activeFilter || "")
+            .trim()
+            .toLowerCase()
+      );
 
   const isImageUrl = (src) =>
   src &&
