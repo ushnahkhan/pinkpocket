@@ -155,58 +155,14 @@
   transform: scale(1.1);
 }
 
-/* --- CATEGORY PILLS --- */
-.products-filter-bar {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-bottom: 40px;
-}
 
-.filter-chip {
-  padding: 10px 28px;
-  border-radius: 50px;
-  border: none;
-  background: #F8E7F0; /* Softest pink */
-  color: #5E4B56;
-  font-weight: 500;
-  cursor: pointer;
-}
 
-.filter-chip.active {
-  background: #F39AC8; /* Primary Figma Pink */
-  color: white;
-}
 
-/* --- 3-COLUMN PRODUCT GRID --- */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  padding: 0 60px 60px;
-}
-
-.shop-product-card {
-  background: white;
-  border-radius: 25px;
-  padding: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-}
-
-.shop-product-img-area {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1/1; /* Square images */
-  border-radius: 20px;
-  overflow: hidden;
-  background: #fdf2f8;
-}
-
-.shop-product-placeholder {
+/* .shop-product-placeholder {
   width: 100%;
   height: 100%;
   background: linear-gradient(135deg, #f9d0e8 0%, #f0e8ef 100%);
-}
+} */
 
 .heart-icon-overlay {
   position: absolute;
@@ -222,41 +178,6 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.heart-icon-overlay.active { color: #F39AC8; }
+.heart-icon-overlay.active { color: var(--pmrycolor) }
 
-.shop-product-name {
-  display: block;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #3A2A35;
-  margin-top: 12px;
-}
 
-.shop-product-cat-label {
-  display: block;
-  font-size: 0.9rem;
-  color: #9D8A95;
-  margin-bottom: 15px;
-}
-
-.shop-product-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.shop-product-price-tag {
-  font-weight: 700;
-  color: #3A2A35;
-  font-size: 1.1rem;
-}
-
-.add-to-bag-btn {
-  background: #F39AC8;
-  color: white;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-}
