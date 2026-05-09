@@ -12,7 +12,7 @@ const Products = () => {
   const [liked, setLiked] = useState({});
   const [cart, setCart] = useState({});
   const [products, setProducts] = useState([]);
-  const categories = ["All", new Set((Array.isArray(products) ? products : [])
+  const categories = ["All",...new Set((Array.isArray(products) ? products : [])
       .map((p) => String(p.category || "").trim())
       .filter(Boolean))];
 
