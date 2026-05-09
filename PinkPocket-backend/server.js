@@ -4,8 +4,9 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
-
+console.log(process.env.MONGOURI);
 const app = express();
+const PORT=process.env.PORT||5000;
 
 connectDB();
 
@@ -19,4 +20,4 @@ app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/ai", require("./routes/aiRoutes"));
-app.listen(5000, () => console.log("Server running"));
+app.listen(PORT, () => console.log("Server running"));
