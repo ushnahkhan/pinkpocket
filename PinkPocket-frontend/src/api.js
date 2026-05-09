@@ -1,4 +1,4 @@
-const API = "http://localhost:5000/api";
+const API = "https://pinkpocket.onrender.com";
 
 export const signupUser = (data) =>
     fetch(`${API}/auth/signup`, {
@@ -31,11 +31,11 @@ export const placeOrder = (data, token) =>
     }).then(res => res.json());
 
 export const getReviews = (productId) =>
-    fetch(`http://localhost:5000/api/reviews/${productId}`)
+    fetch(`${API}/reviews/${productId}`)
         .then(res => res.json());
 
 export const addReview = async (productId, data, token) => {
-    const res = await fetch(`http://localhost:5000/api/reviews/${productId}`, {
+    const res = await fetch(`${API}/reviews/${productId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export const addReview = async (productId, data, token) => {
 const getToken = () => localStorage.getItem("token");
 
 export const getMe = async () => {
-    const res = await fetch(`http://localhost:5000/api/auth/me`, {
+    const res = await fetch(`${API}/auth/me`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -69,7 +69,7 @@ export const getMe = async () => {
 };
 
 export const getMyOrders = async () => {
-    const res = await fetch(`http://localhost:5000/api/orders/my`, {
+    const res = await fetch(`${API}/orders/my`, {
         headers: {
             Authorization: `Bearer ${getToken()}`
         }
@@ -81,7 +81,7 @@ export const getMyOrders = async () => {
 };
 
 export const addToCartAPI = async (product) => {
-    const res = await fetch("http://localhost:5000/api/cart", {
+    const res = await fetch(`${API}/cart`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export const addToCartAPI = async (product) => {
     return data;
 };
 export const getCartAPI = async () => {
-    const res = await fetch("http://localhost:5000/api/cart", {
+    const res = await fetch(`${API}/cart`, {
         headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -103,7 +103,7 @@ export const getCartAPI = async () => {
 };
 
 export const updateCartAPI = async (productId, delta) => {
-    const res = await fetch("http://localhost:5000/api/cart/update", {
+    const res = await fetch(`${API}/cart/update`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -115,7 +115,7 @@ export const updateCartAPI = async (productId, delta) => {
 };
 
 export const removeFromCartAPI = async (productId) => {
-    const res = await fetch(`http://localhost:5000/api/cart/${productId}`, {
+    const res = await fetch(`${API}/cart/${productId}`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
