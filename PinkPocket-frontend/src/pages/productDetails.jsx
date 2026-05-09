@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./productDetails.css";
-import { getProduct, getReviews, addReview } from "../api";
+import { getProduct, getReviews, addReview,addToCartAPI } from "../api";
 import AIAssistant from "../components/AIAssistant";
 
 const ProductDetails = () => {
@@ -86,25 +86,20 @@ const isImageUrl = (src) =>
     src.startsWith("/")
   );
   const handleAddToCart = () => {
-  const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
-  const existingItem = existingCart.find(item => item.productId === product._id);
-
-  if (existingItem) {
-    existingItem.quantity += quantity;
-  } else {
-    existingCart.push({
-      productId: product._id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      category: product.category,
-      quantity: quantity
+    try {
+      await addToCartAPI({
+        productId: product._id
     });
-  }
 
-  localStorage.setItem("cart", JSON.stringify(existingCart));
-  setAddedToCart(true);
-  setTimeout(() => setAddedToCart(false), 2000);
+    setAddedToCart(true);
+
+    setTimeout(() => {
+      setAddedToCart(false);
+    }, 2000);
+
+  } catch (err) {
+    console.error("Cart error:", err);
+  }
 };
 
   if (!product) return <div className="product-details-loading">Loading...</div>;
