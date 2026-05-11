@@ -48,8 +48,8 @@ const Cart = () => {
                         {cart.length === 0 ? (
                             <p>Your cart is empty!</p>
                         ):(
-                            cart.map((item,index) =>(
-                                                            <div className="cart-card">
+                            cart.map((item) =>(
+                                                            <div className="cart-card" key={item.productId}>
                             <img src={item.image||productImg} alt={item.name} className="cart-img" />
                             <div className="cart-info">
                                 <h4>{item.name}</h4>

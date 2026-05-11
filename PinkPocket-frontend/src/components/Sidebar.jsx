@@ -54,7 +54,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
   const handleLogout = () => {
     logout();
     closeSidebar();
-    window.location.href="/login";
+    navigate("/login");
   };
 
   return (
